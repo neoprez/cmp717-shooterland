@@ -1,45 +1,74 @@
 package game.code;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 /**
  *
  */
 public class MainGame extends GameCore {
     private CowBoy cowBoy = new CowBoy(500, 500);
+    private InputManager inputManager;
+    private GameAction  leftKey  = new GameAction("left"),
+                        rightKey = new GameAction("right"),
+                        upKey    = new GameAction("up"),
+                        downKey  = new GameAction("down"),
+                        exitKey  = new GameAction("exit", GameAction.DETECT_INITIAL_PRESS_ONLY);
+    private GameMap gameMap = new GameMap();
 
-    private void readInput() {
-        if(isLeftPressed()){
+
+    public void init() {
+        super.init();
+        inputManager = new InputManager(screen.getFullScreenWindow());
+        mapKeysToActions();
+    }
+
+    private void mapKeysToActions() {
+        inputManager.mapToKey(leftKey, KeyEvent.VK_LEFT);
+        inputManager.mapToKey(rightKey, KeyEvent.VK_RIGHT);
+        inputManager.mapToKey(upKey, KeyEvent.VK_UP);
+        inputManager.mapToKey(downKey, KeyEvent.VK_DOWN);
+        inputManager.mapToKey(exitKey, KeyEvent.VK_ESCAPE);
+    }
+
+    public void draw(Graphics2D g) {
+        g.clearRect(0, 0, screen.getWidth(), screen.getHeight());
+        gameMap.draw(g);
+        cowBoy.draw(g);
+    }
+
+    public void update(long elapsedTime) {
+        checkSystemInput();
+        checkGameInput();
+        cowBoy.update();
+    }
+
+    private void checkSystemInput() {
+        if(exitKey.isPressed()){
+            stop();
+        }
+    }
+
+    private void checkGameInput() {
+        if(leftKey.isPressed()){
             cowBoy.moveLeft();
         }
 
-        if(isUpPressed()){
+        if(rightKey.isPressed()){
+            cowBoy.moveRight();
+        }
+
+        if(upKey.isPressed()){
             cowBoy.moveUp();
         }
 
-        if(isDownPressed()){
+        if(downKey.isPressed()){
             cowBoy.moveDown();
         }
-
-        if(isRightPressed()){
-            cowBoy.moveRight();
-        }
     }
 
-    public void update() {
-        if(cowBoy != null){
-            readInput();
-        }
+    public static void main(String[] args) {
+        MainGame g = new MainGame();
+        g.run();
     }
-
-    @Override
-    public void render(Graphics g) {
-        if(cowBoy != null){
-            cowBoy.draw(g);
-        }
-    }
-
-//    public static void main(String[] args) {
-//        new MainGame();
-//    }
 }
