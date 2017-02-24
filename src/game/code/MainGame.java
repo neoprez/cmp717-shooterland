@@ -14,6 +14,8 @@ public class MainGame extends GameCore {
                         upKey    = new GameAction("up"),
                         downKey  = new GameAction("down"),
                         exitKey  = new GameAction("exit", GameAction.DETECT_INITIAL_PRESS_ONLY);
+    private GameMap gameMap = new GameMap();
+
 
     public void init() {
         super.init();
@@ -31,6 +33,7 @@ public class MainGame extends GameCore {
 
     public void draw(Graphics2D g) {
         g.clearRect(0, 0, screen.getWidth(), screen.getHeight());
+        gameMap.draw(g);
         cowBoy.draw(g);
     }
 
