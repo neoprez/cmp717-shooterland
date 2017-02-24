@@ -53,7 +53,9 @@ public class Character {
     public void draw(Graphics2D g) {
         g.drawImage(image, t, null);
         transform();
-        c.draw(g);
+        if(Globals.drawPolygons) {
+            c.draw(g);
+        }
     }
 
     public void setDeadAnimation(String fileName, String fileExt, int count, int duration) {
