@@ -11,4 +11,8 @@ public class Globals {
     public static void showPolygons() {
         drawPolygons = true;
     }
+
+    public static void togglePolygons() {
+        drawPolygons = !drawPolygons;
+    }
 }

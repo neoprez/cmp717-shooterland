@@ -14,7 +14,8 @@ public class MainGame extends GameCore {
                         rightKey = new GameAction("right"),
                         upKey    = new GameAction("up"),
                         downKey  = new GameAction("down"),
-                        exitKey  = new GameAction("exit", GameAction.DETECT_INITIAL_PRESS_ONLY);
+                        exitKey  = new GameAction("exit", GameAction.DETECT_INITIAL_PRESS_ONLY),
+                        showPoly = new GameAction("show polygons", GameAction.DETECT_INITIAL_PRESS_ONLY);
     private GameMap gameMap = new GameMap();
     private Pyro pyro = new Pyro(600, 400, 0);
 
@@ -32,6 +33,7 @@ public class MainGame extends GameCore {
         inputManager.mapToKey(upKey, KeyEvent.VK_UP);
         inputManager.mapToKey(downKey, KeyEvent.VK_DOWN);
         inputManager.mapToKey(exitKey, KeyEvent.VK_ESCAPE);
+        inputManager.mapToKey(showPoly, KeyEvent.VK_P);
     }
 
     public void draw(Graphics2D g) {
@@ -50,6 +52,10 @@ public class MainGame extends GameCore {
     private void checkSystemInput() {
         if(exitKey.isPressed()){
             stop();
+        }
+
+        if(showPoly.isPressed()){
+            Globals.togglePolygons();
         }
     }
 
