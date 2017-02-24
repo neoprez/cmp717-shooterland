@@ -8,38 +8,15 @@ import java.awt.*;
 public class MainGame extends GameCore {
     private CowBoy cowBoy = new CowBoy(500, 500);
 
-    private void readInput() {
-        if(isLeftPressed()){
-            cowBoy.moveLeft();
-        }
-
-        if(isUpPressed()){
-            cowBoy.moveUp();
-        }
-
-        if(isDownPressed()){
-            cowBoy.moveDown();
-        }
-
-        if(isRightPressed()){
-            cowBoy.moveRight();
-        }
+    public void draw(Graphics2D g) {
+        cowBoy.draw(g);
     }
 
-    public void update() {
-        if(cowBoy != null){
-            readInput();
-        }
+    public void update(long elapsedTime) {
+
     }
 
-    @Override
-    public void render(Graphics g) {
-        if(cowBoy != null){
-            cowBoy.draw(g);
-        }
+    public static void main(String[] args) {
+        new MainGame().run();
     }
-
-//    public static void main(String[] args) {
-//        new MainGame();
-//    }
 }

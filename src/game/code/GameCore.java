@@ -1,136 +1,113 @@
 package game.code;
 
 import javax.swing.*;
-import java.applet.Applet;
 import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferStrategy;
 
-public abstract class GameCore extends Applet implements KeyListener, Runnable {
-    private boolean leftPressed, rightPressed, upPressed, downPressed;
-    private Thread gameThread;
-    private boolean isGameRunning;
-    private BufferStrategy bufferStrategy;
-    GraphicsDevice device; // To set the screen full screen
-    Window window;
-    DisplayMode oldDisplayMode;
-    DisplayMode newDisplayMode;
-    GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+/**
+ * Simple abstract class used for testing. Subclasses should
+ * implement the draw() method.
+ */
+public abstract class GameCore
+{
+    protected static final int FONT_SIZE = 24;
 
-    public void init() {
+    private static final DisplayMode POSSIBLE_MODES[] = {
+            new DisplayMode(2880, 1800, 32, 0),
+//            new DisplayMode(2880, 1800, 24, 0),
+//            new DisplayMode(2880, 1800, 16, 0),
+            new DisplayMode(1024, 768, 32, 0),
+            new DisplayMode(1024, 768, 24, 0),
+            new DisplayMode(1024, 768, 16, 0),
+            new DisplayMode(800, 600, 32, 0),
+            new DisplayMode(800, 600, 24, 0),
+            new DisplayMode(800, 600, 16, 0),
+            new DisplayMode(640, 480, 32, 0),
+            new DisplayMode(640, 480, 24, 0),
+            new DisplayMode(640, 480, 16, 0),
+    };
 
-        setSize(1024, 768);
-//        device = environment.getDefaultScreenDevice();
-//        oldDisplayMode = device.getDisplayMode();
+    private boolean isRunning;
+    protected ScreenManager screen;
 
-
-
-//        System.out.println(device.isFullScreenSupported());
-//        setExtendedState(JFrame.MAXIMIZED_BOTH);
-//        setUndecorated(true);
-//        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//        setVisible(true);
-//        createBufferStrategy(2);
-//        bufferStrategy = getBufferStrategy();
-        initialize();
-        addKeyListener(this);
-        gameThread.start();
-        requestFocus();
-//        device.setFullScreenWindow();
+    /**
+     * Signals the game loop that it's time to quit
+     */
+    public void stop() {
+        isRunning = false;
     }
 
-    private void initialize() {
-        leftPressed = rightPressed = upPressed = downPressed = false;
-        isGameRunning = true;
-        gameThread = new Thread(this);
-    }
-
-    public abstract void update();
-
-    public abstract void render(Graphics g);
-
-    private void updateGraphics() {
-        // Use a buffer strategy class to update the graphics on the screen.
-        do {
-            do {
-                Graphics g = bufferStrategy.getDrawGraphics();
-                g.clearRect(0, 0, getWidth(), getHeight());
-                render(g);
-            } while (bufferStrategy.contentsRestored());
-            bufferStrategy.show();
-        }while (bufferStrategy.contentsLost());
-    }
-
-    public void paint(Graphics g){
-        render(g);
-    }
-
+    /**
+     * Calls init() and gameLoop()
+     */
     public void run() {
-        while(isGameRunning) {
+        try {
+            init();
+            gameLoop();
+        } finally {
+            screen.restoreScreen();
+        }
+    }
+
+    /**
+     * Sets full screen mode and initiates and objects.
+     */
+    public void init() {
+        screen = new ScreenManager();
+        DisplayMode displayMode = screen.findFirstCompatibleMode(POSSIBLE_MODES);
+        screen.setFullScreen(displayMode);
+
+        Window window = screen.getFullScreenWindow();
+        window.setFont(new Font("Dialog", Font.PLAIN, FONT_SIZE));
+        window.setBackground(Color.black);
+        window.setForeground(Color.white);
+
+        isRunning = true;
+    }
+
+    public Image loadImage(String fileName) {
+        return new ImageIcon(fileName).getImage();
+    }
+
+    /**
+     * Runs through the game loop until stop() is called.
+     */
+    public void gameLoop() {
+        long startTime = System.currentTimeMillis();
+        long currTime = startTime;
+
+        while(isRunning) {
+            long elapsedTime = System.currentTimeMillis() - currTime;
+            currTime += elapsedTime;
+
+            // update the sprites
+            update(elapsedTime);
+
+            // draw and update screen
+            Graphics2D g = screen.getGraphics();
+            draw(g);
+            g.dispose();
+            screen.update();
+
+            // take a nap
+
             try {
-                update();
-                repaint();
-//                updateGraphics();
-                Thread.sleep(15);
-            } catch (InterruptedException e){}
-        }
-        System.exit(0);
-    }
-
-    private void setUnsetKey(int keyCode, boolean val) {
-        switch (keyCode) {
-            case KeyEvent.VK_LEFT:
-                leftPressed = val;
-                break;
-            case KeyEvent.VK_RIGHT:
-                rightPressed = val;
-                break;
-            case KeyEvent.VK_UP:
-                upPressed = val;
-                break;
-            case KeyEvent.VK_DOWN:
-                downPressed = val;
-                break;
-            case KeyEvent.VK_ESCAPE:
-                isGameRunning = false;
-                break;
+                Thread.sleep(20);
+            } catch (InterruptedException ex) {}
         }
     }
 
-    private void setKey(int keyCode) {
-        setUnsetKey(keyCode, true);
-    }
-
-    private void unsetKey(int keyCode) {
-        setUnsetKey(keyCode, false);
-    }
-
-
-    public void keyTyped(KeyEvent e) {}
-
-
-    public void keyPressed(KeyEvent e) {
-        setKey(e.getKeyCode());
+    /**
+     * Updates the state of the game/animation based on the
+     * amount of elapsed time that has passed.
+     */
+    public void update(long elapsedTime) {
+       // do nothing
     }
 
 
-    public void keyReleased(KeyEvent e) {
-        unsetKey(e.getKeyCode());
-    }
-
-    public boolean isUpPressed(){
-        return upPressed;
-    }
-
-    public boolean isDownPressed() {
-        return downPressed;
-    }
-
-    public boolean isLeftPressed() {
-        return leftPressed;
-    }
-
-    public boolean isRightPressed() {
-        return rightPressed;
-    }
+    /**
+     * Draws to the screen. Subclasses must override this
+     * method.
+     */
+    public abstract void draw(Graphics2D g);
 }
