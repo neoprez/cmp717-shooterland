@@ -13,8 +13,8 @@ public abstract class GameCore
 
     private static final DisplayMode POSSIBLE_MODES[] = {
             new DisplayMode(2880, 1800, 32, 0),
-//            new DisplayMode(2880, 1800, 24, 0),
-//            new DisplayMode(2880, 1800, 16, 0),
+            new DisplayMode(2880, 1800, 24, 0),
+            new DisplayMode(2880, 1800, 16, 0),
             new DisplayMode(1024, 768, 32, 0),
             new DisplayMode(1024, 768, 24, 0),
             new DisplayMode(1024, 768, 16, 0),
@@ -91,7 +91,7 @@ public abstract class GameCore
             // take a nap
 
             try {
-                Thread.sleep(20);
+                Thread.sleep(15);
             } catch (InterruptedException ex) {}
         }
     }
