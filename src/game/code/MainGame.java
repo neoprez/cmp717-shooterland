@@ -1,5 +1,6 @@
 package game.code;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -15,11 +16,13 @@ public class MainGame extends GameCore {
                         downKey  = new GameAction("down"),
                         exitKey  = new GameAction("exit", GameAction.DETECT_INITIAL_PRESS_ONLY);
     private GameMap gameMap = new GameMap();
-
+    private Pyro pyro = new Pyro(600, 400, 0);
 
     public void init() {
         super.init();
-        inputManager = new InputManager(screen.getFullScreenWindow());
+//        setFullScreen();
+        setWindowMode(1440, 900);
+        inputManager = new InputManager(screen.getCurrentWindow());
         mapKeysToActions();
     }
 
@@ -34,13 +37,14 @@ public class MainGame extends GameCore {
     public void draw(Graphics2D g) {
         g.clearRect(0, 0, screen.getWidth(), screen.getHeight());
         gameMap.draw(g);
-        cowBoy.draw(g);
+        pyro.draw(g);
+//        cowBoy.draw(g);
     }
 
     public void update(long elapsedTime) {
         checkSystemInput();
         checkGameInput();
-        cowBoy.update();
+//        cowBoy.update();
     }
 
     private void checkSystemInput() {
@@ -51,19 +55,18 @@ public class MainGame extends GameCore {
 
     private void checkGameInput() {
         if(leftKey.isPressed()){
-            cowBoy.moveLeft();
+            pyro.rotateLeft();
         }
 
         if(rightKey.isPressed()){
-            cowBoy.moveRight();
+            pyro.rotateRight();
         }
 
         if(upKey.isPressed()){
-            cowBoy.moveUp();
+            pyro.moveForward();
         }
 
         if(downKey.isPressed()){
-            cowBoy.moveDown();
         }
     }
 

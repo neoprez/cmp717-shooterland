@@ -15,6 +15,9 @@ public abstract class GameCore
             new DisplayMode(2880, 1800, 32, 0),
             new DisplayMode(2880, 1800, 24, 0),
             new DisplayMode(2880, 1800, 16, 0),
+            new DisplayMode(1440, 900, 32, 0),
+            new DisplayMode(1440, 900, 24, 0),
+            new DisplayMode(1440, 900, 16, 0),
             new DisplayMode(1024, 768, 32, 0),
             new DisplayMode(1024, 768, 24, 0),
             new DisplayMode(1024, 768, 16, 0),
@@ -53,15 +56,20 @@ public abstract class GameCore
      */
     public void init() {
         screen = new ScreenManager();
+        isRunning = true;
+    }
+
+    public void setFullScreen() {
         DisplayMode displayMode = screen.findFirstCompatibleMode(POSSIBLE_MODES);
         screen.setFullScreen(displayMode);
-
         Window window = screen.getFullScreenWindow();
         window.setFont(new Font("Dialog", Font.PLAIN, FONT_SIZE));
         window.setBackground(Color.black);
         window.setForeground(Color.white);
+    }
 
-        isRunning = true;
+    public void setWindowMode(int width, int height) {
+        screen.setWindowMode(width, height);
     }
 
     public Image loadImage(String fileName) {
@@ -85,7 +93,8 @@ public abstract class GameCore
             // draw and update screen
             Graphics2D g = screen.getGraphics();
             draw(g);
-            g.dispose();
+            if(g != null)
+                g.dispose();
             screen.update();
 
             // take a nap

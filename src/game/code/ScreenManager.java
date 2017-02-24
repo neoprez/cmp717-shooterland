@@ -11,6 +11,10 @@ import java.awt.image.BufferedImage;
  */
 public class ScreenManager {
     private GraphicsDevice device;
+    private JFrame currentWindow;
+    private static final int FULL_SCREEN = 0;
+    private static final int WINDOW = 1;
+    private int currentMode = WINDOW;
 
     /**
      * Creates a new ScreenManager object.
@@ -108,6 +112,20 @@ public class ScreenManager {
             } catch (IllegalArgumentException ex) {}
         }
         frame.createBufferStrategy(2);
+        currentWindow = frame;
+    }
+
+    public void setWindowMode(int width, int height){
+        JFrame frame = new JFrame();
+        frame.setSize(new Dimension(width, height));
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.createBufferStrategy(2);
+        currentWindow = frame;
+    }
+
+    public JFrame getCurrentWindow() {
+        return currentWindow;
     }
 
     /**
@@ -119,6 +137,9 @@ public class ScreenManager {
      * </p>
      */
     public Graphics2D getGraphics() {
+        if(currentMode == WINDOW)
+            return (Graphics2D)currentWindow.getGraphics();
+
         Window window = device.getFullScreenWindow();
         if(window != null) {
             BufferStrategy strategy = window.getBufferStrategy();
@@ -188,6 +209,11 @@ public class ScreenManager {
      * Restores the screen's display mode.
      */
     public void restoreScreen() {
+        if(currentMode == WINDOW) {
+            currentWindow.dispose();
+            return;
+        }
+
         Window window = device.getFullScreenWindow();
         if(window != null) {
             window.dispose();
