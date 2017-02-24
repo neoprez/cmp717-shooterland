@@ -18,11 +18,12 @@ public class MainGame extends GameCore {
                         showPoly = new GameAction("show polygons", GameAction.DETECT_INITIAL_PRESS_ONLY);
     private GameMap gameMap = new GameMap();
     private Pyro pyro = new Pyro(600, 400, 0);
+    private Heavy heavy = new Heavy(900, 400, 180);
 
     public void init() {
         super.init();
-//        setFullScreen();
-        setWindowMode(1440, 900);
+        setFullScreen();
+//        setWindowMode(1440, 900);
         inputManager = new InputManager(screen.getCurrentWindow());
         mapKeysToActions();
     }
@@ -40,6 +41,7 @@ public class MainGame extends GameCore {
         g.clearRect(0, 0, screen.getWidth(), screen.getHeight());
         gameMap.draw(g);
         pyro.draw(g);
+        heavy.draw(g);
 //        cowBoy.draw(g);
     }
 
@@ -61,15 +63,18 @@ public class MainGame extends GameCore {
 
     private void checkGameInput() {
         if(leftKey.isPressed()){
-            pyro.rotateLeft();
+//            pyro.rotateLeft();
+            heavy.rotateLeft();
         }
 
         if(rightKey.isPressed()){
-            pyro.rotateRight();
+//            pyro.rotateRight();
+            heavy.rotateRight();
         }
 
         if(upKey.isPressed()){
-            pyro.moveForward();
+//            pyro.moveForward();
+            heavy.moveForward();
         }
 
         if(downKey.isPressed()){

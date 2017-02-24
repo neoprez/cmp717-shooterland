@@ -20,7 +20,7 @@ public class Character {
         image = new ImageIcon(this.getClass().getResource(imagesPath + imageName)).getImage();
         width = image.getWidth(null)/2;
         height = image.getHeight(null)/2;
-        c = new Circle(x, y, width, startAngle);
+        c = new Circle(x, y, height, startAngle);
     }
 
     public void update(long elapsedtime){
