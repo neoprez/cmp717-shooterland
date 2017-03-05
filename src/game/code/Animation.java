@@ -7,7 +7,6 @@ import java.awt.*;
  *
  */
 public class Animation {
-    private static final String imagesPath = "./images/";
     private static final String stand = "stand";
     private ImageIcon[] images;
     private int currentImage = 0;
@@ -18,10 +17,10 @@ public class Animation {
     public Animation(String poseName, String fileNameExt, int count, int duration){
         this.images = new ImageIcon[count];
         for(int i = 0; i < count; i++) {
-            images[i] = new ImageIcon(this.getClass().getResource(imagesPath + poseName + i + fileNameExt));
+            images[i] = new ImageIcon(this.getClass().getResource(Globals.resourcesFolder + poseName + i + fileNameExt));
         }
         this.duration = duration;
-        this.standingImage = new ImageIcon(this.getClass().getResource(imagesPath + poseName + stand + fileNameExt));
+        this.standingImage = new ImageIcon(this.getClass().getResource(Globals.resourcesFolder + poseName + stand + fileNameExt));
     }
 
     public void update() {

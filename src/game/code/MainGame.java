@@ -15,17 +15,24 @@ public class MainGame extends GameCore {
                         upKey    = new GameAction("up"),
                         downKey  = new GameAction("down"),
                         exitKey  = new GameAction("exit", GameAction.DETECT_INITIAL_PRESS_ONLY),
-                        showPoly = new GameAction("show polygons", GameAction.DETECT_INITIAL_PRESS_ONLY);
+                        showPoly = new GameAction("show polygons", GameAction.DETECT_INITIAL_PRESS_ONLY),
+                        shoot    = new GameAction("shoot");
     private GameMap gameMap = new GameMap();
-    private Pyro pyro = new Pyro(600, 400, 0);
-    private Heavy heavy = new Heavy(900, 400, 180);
+    private Pyro pyro;
+    private Heavy heavy;
+    private ResourcesLoader resourcesLoader = new ResourcesLoader();
 
     public void init() {
         super.init();
-        setFullScreen();
-//        setWindowMode(1440, 900);
+//        setFullScreen();
+        setWindowMode(1440, 900);
         inputManager = new InputManager(screen.getCurrentWindow());
         mapKeysToActions();
+        resourcesLoader.loadResources();
+        pyro = resourcesLoader.getPyro();
+        pyro.setOrigin(500, 500, 90);
+        heavy = resourcesLoader.getHeavy();
+        heavy.setOrigin(800, 500);
     }
 
     private void mapKeysToActions() {
@@ -35,19 +42,26 @@ public class MainGame extends GameCore {
         inputManager.mapToKey(downKey, KeyEvent.VK_DOWN);
         inputManager.mapToKey(exitKey, KeyEvent.VK_ESCAPE);
         inputManager.mapToKey(showPoly, KeyEvent.VK_P);
+        inputManager.mapToKey(shoot, KeyEvent.VK_SPACE);
     }
 
     public void draw(Graphics2D g) {
         g.clearRect(0, 0, screen.getWidth(), screen.getHeight());
-        gameMap.draw(g);
-        pyro.draw(g);
-        heavy.draw(g);
-//        cowBoy.draw(g);
+        if(!Globals.isGameLoading()) {
+            gameMap.draw(g);
+            pyro.draw(g);
+            heavy.draw(g);
+        } else {
+            g.setBackground(Color.black);
+            g.setColor(Color.white);
+            g.drawString("Loading", 500, 500);
+        }
     }
 
     public void update(long elapsedTime) {
         checkSystemInput();
         checkGameInput();
+//        heavy.update(elapsedTime);
 //        cowBoy.update();
     }
 
@@ -78,6 +92,12 @@ public class MainGame extends GameCore {
         }
 
         if(downKey.isPressed()){
+//            cowBoy.moveDown();
+        }
+
+        if(shoot.isPressed()){
+//            pyro.shoot();
+            heavy.shoot();
         }
     }
 

@@ -5,10 +5,12 @@ import java.awt.*;
 public class Circle extends PolygonModel {
     int r;
     double d;
+    int diameter;
 
     public Circle(int x, int y, int r, int angle){
         super(x, y, angle);
         this.r = r;
+        diameter = r << 1;
     }
 
     public int[][] getxStruct(){
@@ -67,7 +69,7 @@ public class Circle extends PolygonModel {
 
     public void draw(Graphics g){
         g.setColor(Color.white);
-        g.drawOval(x-r, y-r, 2*r, 2*r);
+        g.drawOval(x-r, y-r, diameter, diameter);
         g.drawLine(x, y, (int)(x + r * cosA), (int)(y + r * sinA) );
     }
 

@@ -20,7 +20,7 @@ public class Line {
         this.x0 = x0;
         this.y0 = y0;
 
-        double magnitude = Math.sqrt(Math.pow(x0-x1, 2) + Math.pow(y0-y1, 2));
+        double magnitude = Math.sqrt((x0-x1)*(x0-x1) + (y0-y1)*(y0-y1));
         xv = (x0 - x1)/magnitude;
         yv = (y0 - y1)/magnitude;
 
