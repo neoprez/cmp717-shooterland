@@ -11,6 +11,7 @@ public class Character extends TransformableObject {
     private ArrayList<Weapon> weapons;
     private int currentWeapon = MAIN_WEAPON;
     private boolean shooting = false;
+    protected int weaponOffset = 0;
 
     /**
      * Creates a character with many images[]. Must be used for rotating characters.
@@ -66,10 +67,22 @@ public class Character extends TransformableObject {
         shooting = true;
     }
 
+    public int getWeaponOffset() {
+        return weaponOffset;
+    }
+
+    private void updateWeaponPosition(){
+        Weapon c = getCurrentWeapon();
+        c.setX(getX());
+        c.setY(getY());
+        c.moveForwardBy(getWeaponOffset());
+    }
+
     public void update(long elapsedTime) {
         super.update(elapsedTime);
         if(shooting){
             getCurrentWeapon().update(elapsedTime);
+            updateWeaponPosition();
         }
     }
 

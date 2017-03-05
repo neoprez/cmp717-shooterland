@@ -5,8 +5,27 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class ResourcesLoader {
-    private Pyro pyro;
-    private Heavy heavy;
+    /**
+     * Holds all the characters:
+     * 0 - Pyro
+     * 1 - Heavy
+     */
+    private Character[] characters = new Character[2];
+    /**
+     * Holds all the weapons.
+     */
+    private Weapon[] weapons = new Weapon[1];
+
+    /**
+     * Constants for characters index.
+     */
+    public static final int PYRO = 0;
+    public static final int HEAVY = 1;
+
+    /**
+     * Constants for character weapons.
+     */
+    public static final int YELLOW_PLAZMA = 0;
 
     public Image loadImage(String imageName){
         return new ImageIcon(this.getClass().getResource(Globals.resourcesFolder + imageName)).getImage();
@@ -14,6 +33,7 @@ public class ResourcesLoader {
 
     public void loadResources() {
         loadHeroes();
+        loadWeapons();
     }
 
     private void loadHeroes() {
@@ -21,14 +41,41 @@ public class ResourcesLoader {
         loadHeavy();
     }
 
+    private void loadWeapons(){
+        loadYellowPlazma();
+    }
+
     private void loadPyro(){
-        pyro = new Pyro(0, 0, 0, getRotatedImages(Pyro.NAME));
+        characters[PYRO] = new Pyro(0, 0, 0, getRotatedImages(Pyro.NAME));
     }
 
     private void loadHeavy(){
-        heavy = new Heavy(0, 0, 0, getRotatedImages(Heavy.NAME));
+        characters[HEAVY] = new Heavy(0, 0, 0, getRotatedImages(Heavy.NAME));
     }
 
+    private void loadYellowPlazma() {
+        weapons[YELLOW_PLAZMA] = new YellowPlazma(0, 0, 0, getRotatedImages(YellowPlazma.NAME));
+    }
+
+
+    public Pyro getPyro(){
+        return (Pyro)characters[PYRO].clone();
+    }
+
+    public Heavy getHeavy(){
+        return (Heavy)characters[HEAVY].clone();
+    }
+
+    public YellowPlazma getYellowPlazma(){
+        return (YellowPlazma)weapons[YELLOW_PLAZMA].clone();
+    }
+
+    /**
+     * Creates an array of 360 images, each image is an image rotated by 1 degree
+     * from 0 to 359.
+     * @param imageName The name of the file containing the image.
+     * @return an array of 360 images.
+     */
     private GameImage[] getRotatedImages(String imageName){
         GameImage[] images = new GameImage[360];
         Image image = loadImage(imageName);
@@ -39,14 +86,6 @@ public class ResourcesLoader {
         }
 
         return images;
-    }
-
-    public Pyro getPyro(){
-        return (Pyro)pyro.clone();
-    }
-
-    public Heavy getHeavy(){
-        return (Heavy)heavy.clone();
     }
 
     /**

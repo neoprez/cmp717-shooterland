@@ -70,7 +70,7 @@ public class Circle extends PolygonModel {
     public void draw(Graphics g){
         g.setColor(Color.white);
         g.drawOval(x-r, y-r, diameter, diameter);
-        g.drawLine(x, y, (int)(x + r * cosA), (int)(y + r * sinA) );
+        g.drawLine(x, y, computedX(), computedY() );
     }
 
     public int computedX(){
@@ -79,5 +79,13 @@ public class Circle extends PolygonModel {
 
     public int computedY() {
         return (int)(y + r * sinA);
+    }
+
+    public int computedX(int x2){
+        return (int)(x + x2 + r *cosA);
+    }
+
+    public int computedY(int y2){
+        return (int)(y + y2 + r * sinA);
     }
 }

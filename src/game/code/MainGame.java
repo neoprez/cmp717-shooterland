@@ -25,8 +25,8 @@ public class MainGame extends GameCore {
 
     public void init() {
         super.init();
-        setFullScreen();
-//        setWindowMode(1440, 900);
+//        setFullScreen();
+        setWindowMode(1440, 900);
         inputManager = new InputManager(screen.getCurrentWindow());
         mapKeysToActions();
         loadResouces();
@@ -35,14 +35,15 @@ public class MainGame extends GameCore {
     public void loadResouces() {
         new Thread(){
             public void run(){
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e){}
+//                try {
+//                    Thread.sleep(2000);
+//                } catch (InterruptedException e){}
                 resourcesLoader.loadResources();
                 pyro = resourcesLoader.getPyro();
                 pyro.setOrigin(500, 500, 90);
                 heavy = resourcesLoader.getHeavy();
                 heavy.setOrigin(800, 500);
+                heavy.addWeapon(resourcesLoader.getYellowPlazma());
                 Globals.setLoaded(true);
             }
         }.start();
@@ -75,7 +76,9 @@ public class MainGame extends GameCore {
     public void update(long elapsedTime) {
         checkSystemInput();
         checkGameInput();
-//        heavy.update(elapsedTime);
+        if(Globals.isGameLoaded()){
+            heavy.update(elapsedTime);
+        }
 //        cowBoy.update();
     }
 

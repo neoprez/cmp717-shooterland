@@ -13,19 +13,10 @@ public class TransformableObject implements Drawable, Cloneable {
     private int offsetX;
     private int offsetY;
 
-    public TransformableObject(int x, int y, String imageName, int startAngle) {
-        image = new ImageIcon(this.getClass().getResource(Globals.resourcesFolder + imageName)).getImage();
-        w = image.getWidth(null)/2;
-        h = image.getHeight(null)/2;
-        c = new Circle(x, y, h, startAngle);
-        offsetX = 0;
-        offsetY = 0;
-    }
-
     public TransformableObject(int x, int y, int startAngle, GameImage[] images){
         currentImage = startAngle;
         this.images = images;
-        c = new Circle(x, y, images[currentImage].getPreferredRadius(), startAngle);
+        c = new Circle(x, y, getCurrentImage().getPreferredRadius(), startAngle);
     }
 
     public void rotateBy(int degrees) {
@@ -49,12 +40,60 @@ public class TransformableObject implements Drawable, Cloneable {
         c.y = y;
     }
 
+    public int getComputedX() {
+        return c.computedX();
+    }
+
+    public int getComputedY() {
+        return c.computedY();
+    }
+
+    public int getComputedX(int x){
+        return c.computedX(x);
+    }
+
+    public int getComputedY(int y){
+        return c.computedY(y);
+    }
+
+    public int getRadius() {
+        return c.r;
+    }
+
+    public int getAngle() {
+        return c.angle;
+    }
+
+    public int getDiameter() {
+        return c.diameter;
+    }
+
+    public void setRadius(int r){
+        c.r = r;
+    }
+
+    public int getWidth(){
+        return getCurrentImage().getWidth();
+    }
+
+    public int getHeight(){
+        return getCurrentImage().getHeight();
+    }
+
     public void setOffsetX(int offsetX){
         this.offsetX = offsetX;
     }
 
     public void setOffsetY(int offsetY){
         this.offsetY = offsetY;
+    }
+
+    public double getCosA() {
+        return c.cosA;
+    }
+
+    public double getSinA(){
+        return c.sinA;
     }
 
     public void moveForwardBy(int dist) {
@@ -77,9 +116,16 @@ public class TransformableObject implements Drawable, Cloneable {
         return images[currentImage];
     }
 
+    public int getPaintX(){
+        return getX() - getCurrentImage().getWidth2() + offsetX;
+    }
+
+    public int getPaintY() {
+        return getY() - getCurrentImage().getHeight2() + offsetY;
+    }
+
     public void draw(Graphics2D g) {
-        GameImage current = getCurrentImage();
-        g.drawImage(current, c.x - current.getWidth2() + offsetX, c.y - current.getHeight2() + offsetY, null);
+        g.drawImage(getCurrentImage(), getPaintX(), getPaintY(), null);
 
         if(Globals.drawPolygons) {
             c.draw(g);
@@ -87,7 +133,7 @@ public class TransformableObject implements Drawable, Cloneable {
     }
 
     public void update(long elapsedtime){
-        // If any animations, this can be used to update the animtions
+        // If any animations, this can be used to update the animations
     }
 
     public Object clone(){

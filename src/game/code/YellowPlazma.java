@@ -1,9 +1,14 @@
 package game.code;
 
+
 public class YellowPlazma extends Weapon {
-    public YellowPlazma(int x, int y, int angle){
-        super(x, y, "yellow-plazma.png", angle);
-        setOffsetX(-20);
-        setOffsetY(-240);
+    public static final String NAME = "yellow-plazma.png";
+
+    public YellowPlazma(int x, int y, int angle, GameImage[] images){
+        super(x, y, angle, images);
+    }
+
+    public int getFireRate(){
+        return 10;
     }
 }
