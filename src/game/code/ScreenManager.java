@@ -119,6 +119,7 @@ public class ScreenManager {
         JFrame frame = new JFrame();
         frame.setSize(new Dimension(width, height));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.getContentPane().setBackground(Color.BLACK);
         frame.setVisible(true);
         frame.createBufferStrategy(2);
         currentWindow = frame;

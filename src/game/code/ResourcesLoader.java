@@ -13,9 +13,7 @@ public class ResourcesLoader {
     }
 
     public void loadResources() {
-        Globals.setLoading(true);
         loadHeroes();
-        Globals.setLoading(false);
     }
 
     private void loadHeroes() {

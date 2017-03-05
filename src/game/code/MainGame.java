@@ -21,18 +21,31 @@ public class MainGame extends GameCore {
     private Pyro pyro;
     private Heavy heavy;
     private ResourcesLoader resourcesLoader = new ResourcesLoader();
+    private Font loadingFont = new Font("Courier New", Font.BOLD, 72);
 
     public void init() {
         super.init();
-//        setFullScreen();
-        setWindowMode(1440, 900);
+        setFullScreen();
+//        setWindowMode(1440, 900);
         inputManager = new InputManager(screen.getCurrentWindow());
         mapKeysToActions();
-        resourcesLoader.loadResources();
-        pyro = resourcesLoader.getPyro();
-        pyro.setOrigin(500, 500, 90);
-        heavy = resourcesLoader.getHeavy();
-        heavy.setOrigin(800, 500);
+        loadResouces();
+    }
+
+    public void loadResouces() {
+        new Thread(){
+            public void run(){
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e){}
+                resourcesLoader.loadResources();
+                pyro = resourcesLoader.getPyro();
+                pyro.setOrigin(500, 500, 90);
+                heavy = resourcesLoader.getHeavy();
+                heavy.setOrigin(800, 500);
+                Globals.setLoaded(true);
+            }
+        }.start();
     }
 
     private void mapKeysToActions() {
@@ -47,14 +60,15 @@ public class MainGame extends GameCore {
 
     public void draw(Graphics2D g) {
         g.clearRect(0, 0, screen.getWidth(), screen.getHeight());
-        if(!Globals.isGameLoading()) {
+        if(Globals.isGameLoaded()) {
             gameMap.draw(g);
             pyro.draw(g);
             heavy.draw(g);
         } else {
+            g.setFont(loadingFont);
             g.setBackground(Color.black);
             g.setColor(Color.white);
-            g.drawString("Loading", 500, 500);
+            g.drawString("Loading...", 500, 500);
         }
     }
 

@@ -62,10 +62,6 @@ public abstract class GameCore
     public void setFullScreen() {
         DisplayMode displayMode = screen.findFirstCompatibleMode(POSSIBLE_MODES);
         screen.setFullScreen(displayMode);
-        Window window = screen.getFullScreenWindow();
-        window.setFont(new Font("Dialog", Font.PLAIN, FONT_SIZE));
-        window.setBackground(Color.black);
-        window.setForeground(Color.white);
     }
 
     public void setWindowMode(int width, int height) {
@@ -92,6 +88,8 @@ public abstract class GameCore
 
             // draw and update screen
             Graphics2D g = screen.getGraphics();
+            if(g!=null)
+                g.setBackground(Color.black);
             draw(g);
             if(g != null)
                 g.dispose();

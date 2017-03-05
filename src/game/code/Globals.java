@@ -4,7 +4,7 @@ package game.code;
 public class Globals {
     public static boolean drawPolygons = false;
     public static final String resourcesFolder = "./images/";
-    public static boolean loading = false;
+    public static boolean loaded = false;
 
     public static void hidePolygons(){
         drawPolygons = false;
@@ -18,11 +18,11 @@ public class Globals {
         drawPolygons = !drawPolygons;
     }
 
-    public static void setLoading(boolean loading){
-        Globals.loading = loading;
+    public static void setLoaded(boolean loading){
+        Globals.loaded = loading;
     }
 
-    public static boolean isGameLoading(){
-        return loading;
+    public static boolean isGameLoaded(){
+        return loaded;
     }
 }
