@@ -13,6 +13,12 @@ public class Circle extends PolygonModel {
         diameter = r << 1;
     }
 
+    public Circle(Circle c){
+        this(c.x, c.y, c.r, c.angle);
+        cosA = c.cosA;
+        sinA = c.sinA;
+    }
+
     public int[][] getxStruct(){
         return null;
     }

@@ -8,7 +8,6 @@ import java.awt.event.KeyEvent;
  *
  */
 public class MainGame extends GameCore {
-    private CowBoy cowBoy = new CowBoy(500, 500);
     private InputManager inputManager;
     private GameAction  leftKey  = new GameAction("left"),
                         rightKey = new GameAction("right"),
@@ -43,7 +42,7 @@ public class MainGame extends GameCore {
                 pyro.setOrigin(500, 500, 90);
                 heavy = resourcesLoader.getHeavy();
                 heavy.setOrigin(800, 500);
-                heavy.addWeapon(resourcesLoader.getYellowPlazma());
+                heavy.addWeapon(resourcesLoader.getYellowPlazmaWeapon());
                 Globals.setLoaded(true);
             }
         }.start();
@@ -75,11 +74,11 @@ public class MainGame extends GameCore {
 
     public void update(long elapsedTime) {
         checkSystemInput();
-        checkGameInput();
         if(Globals.isGameLoaded()){
+            checkGameInput();
             heavy.update(elapsedTime);
+            gameMap.update(elapsedTime);
         }
-//        cowBoy.update();
     }
 
     private void checkSystemInput() {
@@ -94,27 +93,24 @@ public class MainGame extends GameCore {
 
     private void checkGameInput() {
         if(leftKey.isPressed()){
-//            pyro.rotateLeft();
             heavy.rotateLeft();
         }
 
         if(rightKey.isPressed()){
-//            pyro.rotateRight();
             heavy.rotateRight();
         }
 
         if(upKey.isPressed()){
-//            pyro.moveForward();
             heavy.moveForward();
         }
 
         if(downKey.isPressed()){
-//            cowBoy.moveDown();
         }
 
         if(shoot.isPressed()){
-//            pyro.shoot();
-            heavy.shoot();
+            if(heavy.canShoot()) {
+                gameMap.addWorldObject(heavy.shoot());
+            }
         }
     }
 

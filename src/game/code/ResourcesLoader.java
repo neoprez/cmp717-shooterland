@@ -17,6 +17,11 @@ public class ResourcesLoader {
     private Weapon[] weapons = new Weapon[1];
 
     /**
+     * Holds all the bullet objects.
+     */
+    private Bullet[] bullets = new Bullet[1];
+
+    /**
      * Constants for characters index.
      */
     public static final int PYRO = 0;
@@ -27,12 +32,18 @@ public class ResourcesLoader {
      */
     public static final int YELLOW_PLAZMA = 0;
 
+    /**
+     * Constants for weapon bullets.
+     */
+    public static final int YELLOW_PLAZMA_BULLET = 0;
+
     public Image loadImage(String imageName){
         return new ImageIcon(this.getClass().getResource(Globals.resourcesFolder + imageName)).getImage();
     }
 
     public void loadResources() {
         loadHeroes();
+        loadBullets();
         loadWeapons();
     }
 
@@ -54,7 +65,13 @@ public class ResourcesLoader {
     }
 
     private void loadYellowPlazma() {
-        weapons[YELLOW_PLAZMA] = new YellowPlazma(0, 0, 0, getRotatedImages(YellowPlazma.NAME));
+        YellowPlazma w = new YellowPlazma(0, 0, 0, getRotatedImages(YellowPlazma.NAME));
+        weapons[YELLOW_PLAZMA] = w;
+        w.setWeaponBullet(getYellowPlazmaBullet());
+    }
+
+    private void loadBullets() {
+        bullets[YELLOW_PLAZMA_BULLET] = new YellowPlazmaBullet(0, 0, 0, getRotatedImages(YellowPlazmaBullet.NAME));
     }
 
 
@@ -66,8 +83,12 @@ public class ResourcesLoader {
         return (Heavy)characters[HEAVY].clone();
     }
 
-    public YellowPlazma getYellowPlazma(){
+    public YellowPlazma getYellowPlazmaWeapon(){
         return (YellowPlazma)weapons[YELLOW_PLAZMA].clone();
+    }
+
+    public YellowPlazmaBullet getYellowPlazmaBullet() {
+        return (YellowPlazmaBullet)bullets[YELLOW_PLAZMA_BULLET].clone();
     }
 
     /**

@@ -1,17 +1,12 @@
 package game.code;
 
-import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 public class TransformableObject implements Drawable, Cloneable {
-    private Image image;
     private GameImage[] images;
     private int currentImage;
     private Circle c;
-    private int w;
-    private int h;
-    private int offsetX;
-    private int offsetY;
 
     public TransformableObject(int x, int y, int startAngle, GameImage[] images){
         currentImage = startAngle;
@@ -72,6 +67,11 @@ public class TransformableObject implements Drawable, Cloneable {
         c.r = r;
     }
 
+    public void setAngle(int angle) {
+        c.updateAngle(angle);
+        currentImage = c.angle;
+    }
+
     public int getWidth(){
         return getCurrentImage().getWidth();
     }
@@ -80,20 +80,16 @@ public class TransformableObject implements Drawable, Cloneable {
         return getCurrentImage().getHeight();
     }
 
-    public void setOffsetX(int offsetX){
-        this.offsetX = offsetX;
-    }
-
-    public void setOffsetY(int offsetY){
-        this.offsetY = offsetY;
-    }
-
     public double getCosA() {
         return c.cosA;
     }
 
     public double getSinA(){
         return c.sinA;
+    }
+
+    public GameImage[] getImages(){
+        return images;
     }
 
     public void moveForwardBy(int dist) {
@@ -117,11 +113,11 @@ public class TransformableObject implements Drawable, Cloneable {
     }
 
     public int getPaintX(){
-        return getX() - getCurrentImage().getWidth2() + offsetX;
+        return getX() - getCurrentImage().getWidth2();
     }
 
     public int getPaintY() {
-        return getY() - getCurrentImage().getHeight2() + offsetY;
+        return getY() - getCurrentImage().getHeight2();
     }
 
     public void draw(Graphics2D g) {
@@ -137,9 +133,12 @@ public class TransformableObject implements Drawable, Cloneable {
     }
 
     public Object clone(){
-        Object obj = null;
+        TransformableObject obj = null;
         try {
-            obj = super.clone();
+            obj = (TransformableObject)super.clone();
+            obj.images = Arrays.copyOf(images, images.length);
+            obj.c = new Circle(c);
+            obj.currentImage = currentImage;
         } catch (CloneNotSupportedException e){
             e.printStackTrace();
         }

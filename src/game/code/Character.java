@@ -63,8 +63,21 @@ public class Character extends TransformableObject {
         return weapons.size() > 0;
     }
 
-    public void shoot(){
+    public boolean canShoot() {
+        return getCurrentWeapon().hasBullet();
+    }
+
+    public Bullet shoot(){
         shooting = true;
+        if(getCurrentWeapon().hasBullet()) {
+            Bullet b = getCurrentWeapon().getWeaponBullet();
+            b.setX(getX());
+            b.setY(getY());
+            b.setAngle(getAngle());
+            b.moveForwardBy(getWeaponOffset());
+            return b;
+        }
+        return null;
     }
 
     public int getWeaponOffset() {
@@ -75,6 +88,7 @@ public class Character extends TransformableObject {
         Weapon c = getCurrentWeapon();
         c.setX(getX());
         c.setY(getY());
+        c.setAngle(getAngle());
         c.moveForwardBy(getWeaponOffset());
     }
 
@@ -96,5 +110,11 @@ public class Character extends TransformableObject {
 
     public void setDeadAnimation(String fileName, String fileExt, int count, int duration) {
         deadAnimation = new Animation(fileName, fileExt, count, duration);
+    }
+
+    public Object clone() {
+        Character c = (Character)super.clone();
+        c.weapons = (ArrayList<Weapon>)weapons.clone();
+        return c;
     }
 }

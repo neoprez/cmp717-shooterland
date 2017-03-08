@@ -3,6 +3,7 @@ package game.code;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GameMap implements Drawable {
     private Image img = new ImageIcon(this.getClass().getResource("./images/world/texture1.png")).getImage();
@@ -13,6 +14,7 @@ public class GameMap implements Drawable {
     private int h1 = img.getHeight(null);
     private int h2 = h1*2;
     private int h3 = h1*3;
+    private ArrayList<Drawable> worldObjects = new ArrayList<>();
 
     public void draw(Graphics2D g) {
         g.drawImage(img, 0, 0, null);
@@ -34,9 +36,19 @@ public class GameMap implements Drawable {
         g.drawImage(img, w3, h1, null);
         g.drawImage(img, w3, h2, null);
         g.drawImage(img, w3, h3, null);
+
+        for(Drawable d : worldObjects){
+            d.draw(g);
+        }
     }
 
     public void update(long elapsedTime){
+        for(Drawable d : worldObjects){
+            d.update(elapsedTime);
+        }
+    }
 
+    public void addWorldObject(Drawable obj){
+        worldObjects.add(obj);
     }
 }
