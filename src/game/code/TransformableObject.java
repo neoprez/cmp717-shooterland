@@ -3,10 +3,11 @@ package game.code;
 import java.awt.*;
 import java.util.Arrays;
 
-public class TransformableObject implements Drawable, Cloneable {
+public class TransformableObject implements Drawable, Cloneable, Comparable {
     private GameImage[] images;
     private int currentImage;
     private Circle c;
+    private boolean isAlive = true;
 
     public TransformableObject(int x, int y, int startAngle, GameImage[] images){
         currentImage = startAngle;
@@ -120,11 +121,21 @@ public class TransformableObject implements Drawable, Cloneable {
         return getY() - getCurrentImage().getHeight2();
     }
 
-    public void draw(Graphics2D g) {
-        g.drawImage(getCurrentImage(), getPaintX(), getPaintY(), null);
+    public boolean isAlive() {
+        return this.isAlive;
+    }
 
-        if(Globals.drawPolygons) {
-            c.draw(g);
+    public void setIsAlive(boolean isAlive){
+        this.isAlive = isAlive;
+    }
+
+    public void draw(Graphics2D g) {
+        if(isAlive()) {
+            g.drawImage(getCurrentImage(), getPaintX(), getPaintY(), null);
+
+            if (Globals.drawPolygons) {
+                c.draw(g);
+            }
         }
     }
 
@@ -144,5 +155,15 @@ public class TransformableObject implements Drawable, Cloneable {
         }
 
         return obj;
+    }
+
+    public int compareTo(Object o) {
+        if(o instanceof TransformableObject){
+            TransformableObject t = (TransformableObject)o;
+            Integer x = getX();
+            Integer x2 = t.getX();
+            return x.compareTo(x2);
+        }
+        return 0;
     }
 }

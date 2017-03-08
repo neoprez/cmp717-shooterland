@@ -1,10 +1,10 @@
 package game.code;
 
 public class Lookup {
-    public static double oneRadian = Math.PI/180.0;
-    public static double[] radians = getRadians();
-    public static double[] cos = getCos();
-    public static double[] sin = getSin();
+    public final static double oneRadian = Math.PI/180.0;
+    public final static double[] radians = getRadians();
+    public final static double[] cos = getCos();
+    public final static double[] sin = getSin();
 
     public static double[] getCos(){
         double[] cos = new double[360];

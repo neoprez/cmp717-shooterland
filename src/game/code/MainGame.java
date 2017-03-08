@@ -1,6 +1,5 @@
 package game.code;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -15,7 +14,7 @@ public class MainGame extends GameCore {
                         downKey  = new GameAction("down"),
                         exitKey  = new GameAction("exit", GameAction.DETECT_INITIAL_PRESS_ONLY),
                         showPoly = new GameAction("show polygons", GameAction.DETECT_INITIAL_PRESS_ONLY),
-                        shoot    = new GameAction("shoot");
+                        shoot    = new GameAction("shoot", GameAction.DETECT_INITIAL_PRESS_ONLY);
     private GameMap gameMap = new GameMap();
     private Pyro pyro;
     private Heavy heavy;
@@ -34,9 +33,9 @@ public class MainGame extends GameCore {
     public void loadResouces() {
         new Thread(){
             public void run(){
-//                try {
-//                    Thread.sleep(2000);
-//                } catch (InterruptedException e){}
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e){}
                 resourcesLoader.loadResources();
                 pyro = resourcesLoader.getPyro();
                 pyro.setOrigin(500, 500, 90);

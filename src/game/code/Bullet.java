@@ -7,7 +7,6 @@ public class Bullet extends TransformableObject {
     private int maxDistance = 100;
     private int currentDistance = 0; // 100 pixels max
     private Weapon originWeapon;
-    private boolean isAlive = false;
 
     public Bullet(int x, int y, int angle, GameImage[] images){
         super(x, y, angle, images);
@@ -30,16 +29,8 @@ public class Bullet extends TransformableObject {
         return this.maxDistance;
     }
 
-    public boolean isAlive() {
-        return this.isAlive;
-    }
-
     public void setMaxDistance(int maxDistance){
         this.maxDistance = maxDistance;
-    }
-
-    public void setIsAlive(boolean isAlive){
-        this.isAlive = isAlive;
     }
 
     public Weapon getOriginWeapon(){
@@ -56,7 +47,7 @@ public class Bullet extends TransformableObject {
             currentDistance++;
             if (currentDistance > getMaxDistance() && isOriginWeaponSet()) {
                 getOriginWeapon().returnBullet();
-                isAlive = false;
+                setIsAlive(false);
             }
         }
     }

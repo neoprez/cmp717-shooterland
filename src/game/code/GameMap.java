@@ -4,6 +4,7 @@ package game.code;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GameMap implements Drawable {
     private Image img = new ImageIcon(this.getClass().getResource("./images/world/texture1.png")).getImage();
@@ -43,12 +44,35 @@ public class GameMap implements Drawable {
     }
 
     public void update(long elapsedTime){
+        ArrayList<Integer> toDelete = new ArrayList();
+
+        /*
+         * Remove not visible objects.
+         */
+        for(int i = 0; i < worldObjects.size(); i++){
+            if(worldObjects.get(i) instanceof TransformableObject && !((TransformableObject)worldObjects.get(i)).isAlive()) {
+                toDelete.add(i);
+            }
+        }
+
+        for(Integer i : toDelete){
+            worldObjects.remove(i);
+        }
+
         for(Drawable d : worldObjects){
             d.update(elapsedTime);
         }
+        /*
+         * Sort by x axis to improve collisions.
+         */
+        Collections.sort(worldObjects);
     }
 
     public void addWorldObject(Drawable obj){
         worldObjects.add(obj);
+    }
+
+    public int compareTo(Object o){
+        return 0;
     }
 }

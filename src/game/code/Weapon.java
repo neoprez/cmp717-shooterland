@@ -39,7 +39,6 @@ public class Weapon extends TransformableObject {
     public Bullet getWeaponBullet(){
         currentFireRate++;
         Bullet b = (Bullet)weaponBullet.clone();
-        b.setIsAlive(true);
         return b;
     }
 
