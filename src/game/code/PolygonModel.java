@@ -2,18 +2,18 @@ package game.code;
 
 import java.awt.*;
 
-public abstract class PolygonModel {
-    int x;
-    int y;
+public abstract class PolygonModel implements Drawable {
+    protected int x;
+    protected int y;
 
-    int angle;
+    protected int angle;
 
-    double cosA;
-    double sinA;
+    protected double cosA;
+    protected double sinA;
 
-    int[][] xStruct = getxStruct();
-    int[][] yStruct = getyStruct();
-    Color[] colors = getColors();
+//    int[][] xStruct = getxStruct();
+//    int[][] yStruct = getyStruct();
+//    Color[] colors = getColors();
 
     public PolygonModel(int x, int y, int angle){
         this.x = x;
@@ -52,7 +52,7 @@ public abstract class PolygonModel {
     public void rotateBy(int degrees) {
         angle += degrees;
 
-        if( angle >= 360) angle -= 360;
+        if( angle > 359) angle -= 360;
         if( angle <    0) angle += 360;
         /*
 		* x' = x*cosA - y*sinA + x
@@ -63,18 +63,18 @@ public abstract class PolygonModel {
     }
 
     public void draw(Graphics g) {
-        int[] xpoints = new int[4];
-        int[] ypoints = new int[4];
-
-        for (int poly = 0; poly < xStruct.length; poly++) {
-            for (int vert=0; vert < xStruct[poly].length; vert++) {
-                xpoints[vert] = (int) (xStruct[poly][vert] * cosA - yStruct[poly][vert] * sinA) + this.x;
-                ypoints[vert] = (int) (xStruct[poly][vert] * sinA + yStruct[poly][vert] * cosA) + this.y;
-            }
-            g.setColor(colors[poly]);
-            g.fillPolygon(xpoints, ypoints, xStruct[poly].length);
-            g.setColor(Color.black);
-            g.drawPolygon(xpoints, ypoints, xStruct[poly].length);
-        }
+//        int[] xpoints = new int[4];
+//        int[] ypoints = new int[4];
+//
+//        for (int poly = 0; poly < xStruct.length; poly++) {
+//            for (int vert=0; vert < xStruct[poly].length; vert++) {
+//                xpoints[vert] = (int) (xStruct[poly][vert] * cosA - yStruct[poly][vert] * sinA) + this.x;
+//                ypoints[vert] = (int) (xStruct[poly][vert] * sinA + yStruct[poly][vert] * cosA) + this.y;
+//            }
+//            g.setColor(colors[poly]);
+//            g.fillPolygon(xpoints, ypoints, xStruct[poly].length);
+//            g.setColor(Color.black);
+//            g.drawPolygon(xpoints, ypoints, xStruct[poly].length);
+//        }
     }
 }

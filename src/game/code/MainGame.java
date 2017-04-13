@@ -33,9 +33,9 @@ public class MainGame extends GameCore {
     public void loadResouces() {
         new Thread(){
             public void run(){
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e){}
+//                try {
+//                    Thread.sleep(2000);
+//                } catch (InterruptedException e){}
                 resourcesLoader.loadResources();
                 pyro = resourcesLoader.getPyro();
                 pyro.setOrigin(500, 500, 90);
@@ -61,7 +61,7 @@ public class MainGame extends GameCore {
         g.clearRect(0, 0, screen.getWidth(), screen.getHeight());
         if(Globals.isGameLoaded()) {
             gameMap.draw(g);
-            pyro.draw(g);
+//            pyro.draw(g);
             heavy.draw(g);
         } else {
             g.setFont(loadingFont);

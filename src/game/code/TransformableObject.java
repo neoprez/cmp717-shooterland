@@ -3,7 +3,7 @@ package game.code;
 import java.awt.*;
 import java.util.Arrays;
 
-public class TransformableObject implements Drawable, Cloneable, Comparable {
+public class TransformableObject implements Drawable, Cloneable, Comparable, Collidable {
     private GameImage[] images;
     private int currentImage;
     private Circle c;
@@ -165,5 +165,13 @@ public class TransformableObject implements Drawable, Cloneable, Comparable {
             return x.compareTo(x2);
         }
         return 0;
+    }
+
+    public boolean hasCollidedWith(Rect r) {
+        return false;
+    }
+
+    public boolean hasCollidedWith(Circle c) {
+        return false;
     }
 }

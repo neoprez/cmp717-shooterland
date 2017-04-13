@@ -73,7 +73,7 @@ public class Circle extends PolygonModel {
     }
 
 
-    public void draw(Graphics g){
+    public void draw(Graphics2D g){
         g.setColor(Color.white);
         g.drawOval(x-r, y-r, diameter, diameter);
         g.drawLine(x, y, computedX(), computedY() );
@@ -93,5 +93,15 @@ public class Circle extends PolygonModel {
 
     public int computedY(int y2){
         return (int)(y + y2 + r * sinA);
+    }
+
+    @Override
+    public void update(long elapsedTime) {
+
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
     }
 }
