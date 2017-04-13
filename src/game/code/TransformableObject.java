@@ -114,11 +114,11 @@ public class TransformableObject implements Drawable, Cloneable, Comparable, Col
     }
 
     public int getPaintX(){
-        return getX() - getCurrentImage().getWidth2();
+        return getX() - getCurrentImage().getWidth2() - Camera2D.getX();
     }
 
     public int getPaintY() {
-        return getY() - getCurrentImage().getHeight2();
+        return getY() - getCurrentImage().getHeight2() - Camera2D.getY();
     }
 
     public boolean isAlive() {

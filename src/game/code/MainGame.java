@@ -24,8 +24,8 @@ public class MainGame extends GameCore {
 
     public void init() {
         super.init();
-//        setFullScreen();
-        setWindowMode(1440, 900);
+        setFullScreen();
+//        setWindowMode(1440, 900);
         inputManager = new InputManager(screen.getCurrentWindow());
         mapKeysToActions();
         loadResouces();
@@ -63,7 +63,7 @@ public class MainGame extends GameCore {
         g.clearRect(0, 0, screen.getWidth(), screen.getHeight());
         if(Globals.isGameLoaded()) {
             gameMap.draw(g);
-//            pyro.draw(g);
+            pyro.draw(g);
             heavy.draw(g);
         } else {
             g.setFont(loadingFont);
@@ -92,35 +92,25 @@ public class MainGame extends GameCore {
         }
     }
 
-    int MOVEMENT = 10;
-
     private void checkGameInput() {
 
         if (leftKey.isPressed()) {
             Camera2D.rotateLeft();
             heavy.rotateLeft();
-//            Camera2D.moveLeftBy(MOVEMENT);
-
         }
 
         if (rightKey.isPressed()) {
             Camera2D.rotateRight();
             heavy.rotateRight();
-//            Camera2D.moveRightBy(MOVEMENT);
-
         }
 
 
         if(upKey.isPressed()){
-//            Camera2D.moveUpBy(MOVEMENT);
-//            Camera2D.rotateLeft();
             Camera2D.moveForward();
             heavy.moveForward();
         }
 
         if(downKey.isPressed()){
-//            Camera2D.moveDownBy(MOVEMENT);
-//            Camera2D.rotateRight();
         }
 
         if(shoot.isPressed()){
