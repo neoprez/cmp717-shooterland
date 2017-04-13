@@ -57,21 +57,21 @@ public class ResourcesLoader {
     }
 
     private void loadPyro(){
-        characters[PYRO] = new Pyro(0, 0, 0, getRotatedImages(Pyro.NAME));
+        characters[PYRO] = new Pyro(0, 0, Globals.ORIGIN_ANGLE, getRotatedImages(Pyro.NAME));
     }
 
     private void loadHeavy(){
-        characters[HEAVY] = new Heavy(0, 0, 0, getRotatedImages(Heavy.NAME));
+        characters[HEAVY] = new Heavy(0, 0, Globals.ORIGIN_ANGLE, getRotatedImages(Heavy.NAME));
     }
 
     private void loadYellowPlazma() {
-        YellowPlazma w = new YellowPlazma(0, 0, 0, getRotatedImages(YellowPlazma.NAME));
+        YellowPlazma w = new YellowPlazma(0, 0, Globals.ORIGIN_ANGLE, getRotatedImages(YellowPlazma.NAME));
         weapons[YELLOW_PLAZMA] = w;
         w.setWeaponBullet(getYellowPlazmaBullet());
     }
 
     private void loadBullets() {
-        bullets[YELLOW_PLAZMA_BULLET] = new YellowPlazmaBullet(0, 0, 0, getRotatedImages(YellowPlazmaBullet.NAME));
+        bullets[YELLOW_PLAZMA_BULLET] = new YellowPlazmaBullet(0, 0, Globals.ORIGIN_ANGLE, getRotatedImages(YellowPlazmaBullet.NAME));
     }
 
 

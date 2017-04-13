@@ -3,10 +3,11 @@ package game.code;
 import java.awt.*;
 import java.util.ArrayList;
 
+import static game.code.Globals.ROTATE_SPEED;
+
 public class Character extends TransformableObject {
     public static final int MAIN_WEAPON = 0;
-    private static final int MOVE_SPEED = 6;
-    private static final int ROTATE_SPEED = 6;
+    private static final int MOVE_SPEED = 5;
     private Animation deadAnimation;
     private ArrayList<Weapon> weapons;
     private int currentWeapon = MAIN_WEAPON;

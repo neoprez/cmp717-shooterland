@@ -12,6 +12,7 @@ public class MainGame extends GameCore {
                         rightKey = new GameAction("right"),
                         upKey    = new GameAction("up"),
                         downKey  = new GameAction("down"),
+                        rotateKey = new GameAction("rotate"),
                         exitKey  = new GameAction("exit", GameAction.DETECT_INITIAL_PRESS_ONLY),
                         showPoly = new GameAction("show polygons", GameAction.DETECT_INITIAL_PRESS_ONLY),
                         shoot    = new GameAction("shoot", GameAction.DETECT_INITIAL_PRESS_ONLY);
@@ -55,6 +56,7 @@ public class MainGame extends GameCore {
         inputManager.mapToKey(exitKey, KeyEvent.VK_ESCAPE);
         inputManager.mapToKey(showPoly, KeyEvent.VK_P);
         inputManager.mapToKey(shoot, KeyEvent.VK_SPACE);
+        inputManager.mapToKey(rotateKey, KeyEvent.VK_R);
     }
 
     public void draw(Graphics2D g) {
@@ -90,20 +92,35 @@ public class MainGame extends GameCore {
         }
     }
 
+    int MOVEMENT = 10;
+
     private void checkGameInput() {
-        if(leftKey.isPressed()){
+
+        if (leftKey.isPressed()) {
+            Camera2D.rotateLeft();
             heavy.rotateLeft();
+//            Camera2D.moveLeftBy(MOVEMENT);
+
         }
 
-        if(rightKey.isPressed()){
+        if (rightKey.isPressed()) {
+            Camera2D.rotateRight();
             heavy.rotateRight();
+//            Camera2D.moveRightBy(MOVEMENT);
+
         }
+
 
         if(upKey.isPressed()){
+//            Camera2D.moveUpBy(MOVEMENT);
+//            Camera2D.rotateLeft();
+            Camera2D.moveForward();
             heavy.moveForward();
         }
 
         if(downKey.isPressed()){
+//            Camera2D.moveDownBy(MOVEMENT);
+//            Camera2D.rotateRight();
         }
 
         if(shoot.isPressed()){

@@ -120,6 +120,7 @@ public class ScreenManager {
         frame.setSize(new Dimension(width, height));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.getContentPane().setBackground(Color.BLACK);
+        frame.setIgnoreRepaint(true);
         frame.setVisible(true);
         frame.createBufferStrategy(2);
         currentWindow = frame;

@@ -16,27 +16,17 @@ public class GameMap implements Drawable {
     private int h2 = h1*2;
     private int h3 = h1*3;
     private ArrayList<Drawable> worldObjects = new ArrayList<>();
+    int[][] mapCoordinates = {
+                                {0, w1, w2, w3}, // x's
+                                {0, h1, h2, h3}, // y's
+                             };
 
     public void draw(Graphics2D g) {
-        g.drawImage(img, 0, 0, null);
-        g.drawImage(img, 0, h1, null);
-        g.drawImage(img, 0, h2, null);
-        g.drawImage(img, 0, h3, null);
-
-        g.drawImage(img, w1, 0, null);
-        g.drawImage(img, w1, h1, null);
-        g.drawImage(img, w1, h2, null);
-        g.drawImage(img, w1, h3, null);
-
-        g.drawImage(img, w2, 0, null);
-        g.drawImage(img, w2, h1, null);
-        g.drawImage(img, w2, h2, null);
-        g.drawImage(img, w2, h3, null);
-
-        g.drawImage(img, w3, 0, null);
-        g.drawImage(img, w3, h1, null);
-        g.drawImage(img, w3, h2, null);
-        g.drawImage(img, w3, h3, null);
+        for(int r = 0; r < mapCoordinates[0].length; r++){
+            for(int c = 0; c < mapCoordinates[1].length; c++){
+                g.drawImage(img, mapCoordinates[0][r] - Camera2D.getX(), mapCoordinates[1][c] - Camera2D.getY(), null);
+            }
+        }
 
         for(Drawable d : worldObjects){
             d.draw(g);
@@ -44,7 +34,7 @@ public class GameMap implements Drawable {
     }
 
     public void update(long elapsedTime){
-        ArrayList<Integer> toDelete = new ArrayList();
+        ArrayList<Integer> toDelete = new ArrayList<>();
 
         /*
          * Remove not visible objects.
@@ -55,9 +45,7 @@ public class GameMap implements Drawable {
             }
         }
 
-        for(Integer i : toDelete){
-            worldObjects.remove(i);
-        }
+        worldObjects.removeAll(toDelete);
 
         for(Drawable d : worldObjects){
             d.update(elapsedTime);
