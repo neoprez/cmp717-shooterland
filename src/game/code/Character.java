@@ -13,6 +13,7 @@ public class Character extends TransformableObject {
     private int currentWeapon = MAIN_WEAPON;
     private boolean shooting = false;
     protected int weaponOffset = 0;
+    private int bulletXOffset = 20; // offset to make bullets not look like a straight line
 
     /**
      * Creates a character with many images[]. Must be used for rotating characters.
@@ -72,10 +73,11 @@ public class Character extends TransformableObject {
         shooting = true;
         if(getCurrentWeapon().hasBullet()) {
             Bullet b = getCurrentWeapon().getWeaponBullet();
-            b.setX(getX());
+            b.setX(getX() + bulletXOffset);
             b.setY(getY());
             b.setAngle(getAngle());
             b.moveForwardBy(getWeaponOffset());
+            bulletXOffset = -bulletXOffset;
             return b;
         }
         return null;

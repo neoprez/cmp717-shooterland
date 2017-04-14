@@ -75,8 +75,8 @@ public class Circle extends PolygonModel {
 
     public void draw(Graphics2D g){
         g.setColor(Color.white);
-        g.drawOval(x-r, y-r, diameter, diameter);
-        g.drawLine(x, y, computedX(), computedY() );
+        g.drawOval(x-r - Camera2D.getX(), y-r - Camera2D.getY(), diameter, diameter);
+        g.drawLine(x- Camera2D.getX(), y- Camera2D.getY(), computedX()- Camera2D.getX(), computedY()- Camera2D.getY() );
     }
 
     public int computedX(){

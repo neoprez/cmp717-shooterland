@@ -24,8 +24,8 @@ public class MainGame extends GameCore {
 
     public void init() {
         super.init();
-        setFullScreen();
-//        setWindowMode(1440, 900);
+//        setFullScreen();
+        setWindowMode(1440, 900);
         inputManager = new InputManager(screen.getCurrentWindow());
         mapKeysToActions();
         loadResouces();
